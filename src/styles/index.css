@@ -1,0 +1,78 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --cream: #FAF7F2;
+    --cream-dark: #F3ECE2;
+    --terracotta: #C86D51;
+    --terracotta-dark: #A44A3F;
+    --terracotta-light: #DF8C73;
+    --sage: #8A9A86;
+    --sage-dark: #5C715E;
+    --sage-light: #B4C2B1;
+    --gold: #C5A059;
+    --gold-light: #E6D5AC;
+    --gold-dark: #967431;
+    --charcoal: #2B2421;
+    --charcoal-light: #5A4E48;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Inter', 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: var(--cream);
+    color: var(--charcoal);
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, .font-serif {
+    font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
+  }
+
+  .font-script {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-style: italic;
+  }
+}
+
+/* Warm Paper Card Texture & Borders */
+.heritage-card {
+  background: #FFFFFF;
+  border: 1px solid rgba(197, 160, 89, 0.25);
+  box-shadow: 0 10px 30px -5px rgba(43, 36, 33, 0.05), 0 0 0 1px rgba(197, 160, 89, 0.1);
+}
+
+.heritage-card-warm {
+  background: #FDFBF8;
+  border: 1px solid rgba(200, 109, 81, 0.2);
+  box-shadow: 0 12px 35px -8px rgba(164, 74, 63, 0.08);
+}
+
+/* Subtle Gold Foil Shimmer */
+.gold-foil {
+  background: linear-gradient(135deg, #B88E3E 0%, #F5E8C7 40%, #C5A059 70%, #967431 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gold-gradient-bg {
+  background: linear-gradient(135deg, #C5A059 0%, #E6D5AC 50%, #B88E3E 100%);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #FAF7F2;
+}
+::-webkit-scrollbar-thumb {
+  background: #C5A059;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #A44A3F;
+}
