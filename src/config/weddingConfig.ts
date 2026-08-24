@@ -100,7 +100,7 @@ export const weddingConfig: WeddingConfig = {
     heroVideo: "/assets/videos/snaptik_7676543468948294930_v3.mp4",
     heroImageFallback: "/assets/photos/snaptik-app-7676491868703624455-slide-1.jpg",
     storyPhoto: "/assets/photos/snaptik-app-7676491868703624455-slide-2.jpg",
-    backgroundMusic: "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=wedding-piano-romantic-112702.mp3",
+    backgroundMusic: "/assets/audio/young-and-beautiful.m4a",
   },
 
   // =========================================================================

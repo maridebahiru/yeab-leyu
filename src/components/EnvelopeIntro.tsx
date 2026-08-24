@@ -31,9 +31,10 @@ export const EnvelopeIntro: React.FC<EnvelopeIntroProps> = ({ onOpenComplete }) 
   const handleOpen = () => {
     if (isOpening || isOpen) return;
     setIsOpening(true);
-
-    // Trigger sequence
     setIsOpen(true);
+
+    // Trigger background music immediately on user gesture
+    window.dispatchEvent(new CustomEvent('wedding:play-audio'));
 
     // Save flag in sessionStorage
     try {
@@ -42,12 +43,12 @@ export const EnvelopeIntro: React.FC<EnvelopeIntroProps> = ({ onOpenComplete }) 
       console.warn('Session storage not available:', e);
     }
 
-    // Sequence timing
+    // Direct, elegant opening transition into the main page
     setTimeout(() => {
       document.body.style.overflow = 'unset';
       setIsDismissed(true);
       if (onOpenComplete) onOpenComplete();
-    }, 2200);
+    }, 1000);
   };
 
   if (isDismissed) return null;
@@ -57,76 +58,44 @@ export const EnvelopeIntro: React.FC<EnvelopeIntroProps> = ({ onOpenComplete }) 
       {!isDismissed && (
         <motion.div
           initial={{ opacity: 1 }}
-          exit={{ opacity: 0, scale: 1.05 }}
-          transition={{ duration: 0.9, ease: [0.43, 0.13, 0.23, 0.96] }}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-[#2B2421]/95 backdrop-blur-md p-4 overflow-hidden select-none cursor-pointer"
+          exit={{ opacity: 0, scale: 1.12, filter: 'blur(10px)' }}
+          transition={{ duration: 0.8, ease: [0.43, 0.13, 0.23, 0.96] }}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-[#1D1715]/95 backdrop-blur-lg p-4 sm:p-6 overflow-hidden select-none cursor-pointer"
           onClick={handleOpen}
         >
-          {/* Subtle Background Particle Sparkles */}
+          {/* Ambient Warm Golden Lighting */}
           <div className="absolute inset-0 pointer-events-none overflow-hidden">
-            <div className="absolute top-1/4 left-1/4 w-80 h-80 bg-[#C5A059]/10 rounded-full blur-3xl" />
-            <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-[#C86D51]/15 rounded-full blur-3xl" />
+            <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#C5A059]/15 rounded-full blur-[100px]" />
+            <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-[#C86D51]/20 rounded-full blur-[100px]" />
           </div>
 
-          {/* Envelope Container */}
-          <div className="relative w-full max-w-[340px] sm:max-w-[440px] aspect-[4/3] flex items-center justify-center [perspective:1200px]">
+          {/* Full-Scale Envelope Presentation Container */}
+          <div className="relative w-full max-w-[420px] sm:max-w-[540px] md:max-w-[620px] aspect-[1.38/1] flex items-center justify-center [perspective:1400px] drop-shadow-[0_25px_40px_rgba(0,0,0,0.55)]">
             
-            {/* 1. Envelope Body (Backplate) */}
-            <div className="absolute inset-0 rounded-2xl bg-[#FAF7F2] shadow-2xl border-2 border-[#C5A059]/40 overflow-hidden">
-              {/* Inner Lining with delicate floral pattern */}
-              <div className="absolute inset-0 bg-[#F3ECE2] opacity-80" />
-              <div className="absolute inset-2 border border-dashed border-[#C5A059]/30 rounded-xl" />
+            {/* 1. Envelope Body (Backplate & Interior Lining) */}
+            <div className="absolute inset-0 rounded-2xl bg-[#FAF7F2] border-2 border-[#C5A059]/50 overflow-hidden shadow-2xl">
+              {/* Inner Luxury Lining Pattern */}
+              <div className="absolute inset-0 bg-gradient-to-br from-[#F5EFE6] via-[#EFE5D5] to-[#E5D7C2]" />
+              <div className="absolute inset-3 border border-[#C5A059]/30 rounded-xl" />
+              <div className="absolute inset-4 border border-dashed border-[#C5A059]/20 rounded-lg" />
             </div>
 
-            {/* 2. Invitation Card (Slides Up on Open) */}
-            <motion.div
-              initial={{ y: 0, scale: 0.96, opacity: 0.95 }}
-              animate={
-                isOpen
-                  ? { y: -160, scale: 1.04, opacity: 1 }
-                  : { y: 0, scale: 0.96, opacity: 0.95 }
-              }
-              transition={{ duration: 1.2, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              className="absolute inset-3 sm:inset-4 rounded-xl bg-white shadow-xl border border-[#C5A059]/60 p-6 flex flex-col items-center justify-center text-center z-10"
-            >
-              <div className="w-8 h-8 rounded-full border border-[#C5A059]/60 flex items-center justify-center mb-2">
-                <span className="font-serif text-xs text-[#C5A059] italic">
-                  {weddingConfig.couple.monogram}
-                </span>
-              </div>
-
-              <span className="text-[9px] uppercase tracking-[0.3em] text-[#8A9A86] font-semibold">
-                Together with their families
-              </span>
-
-              <h2 className="text-xl sm:text-2xl font-serif text-[#C86D51] font-normal my-1">
-                {weddingConfig.couple.brideName} & {weddingConfig.couple.groomName}
-              </h2>
-
-              <p className="text-[10px] uppercase tracking-widest text-[#5A4E48] font-medium mt-1">
-                Are Getting Married
-              </p>
-              <p className="text-xs font-serif text-[#C5A059] italic mt-0.5">
-                {weddingConfig.event.displayDate}
-              </p>
-            </motion.div>
-
-            {/* 3. Envelope Pocket (Front Bottom Triangular Flap) */}
+            {/* 2. Envelope Pocket (Front Triangular Flaps) */}
             <div className="absolute inset-0 rounded-2xl pointer-events-none z-20 overflow-hidden">
               <svg
-                viewBox="0 0 440 330"
+                viewBox="0 0 620 450"
                 className="w-full h-full drop-shadow-md"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 {/* Left Flap */}
-                <polygon points="0,0 220,165 0,330" fill="#F4EFE6" opacity="0.98" />
+                <polygon points="0,0 310,225 0,450" fill="#F4EFE6" opacity="0.98" />
                 {/* Right Flap */}
-                <polygon points="440,0 220,165 440,330" fill="#EFE8DD" opacity="0.98" />
+                <polygon points="620,0 310,225 620,450" fill="#EFE8DD" opacity="0.98" />
                 {/* Bottom Flap */}
-                <polygon points="0,330 220,160 440,330" fill="#FAF7F2" />
+                <polygon points="0,450 310,220 620,450" fill="#FAF7F2" />
                 <path
-                  d="M0 330 L220 160 L440 330"
+                  d="M0 450 L310 220 L620 450"
                   stroke="#C5A059"
                   strokeWidth="1.5"
                   strokeOpacity="0.4"
@@ -134,71 +103,79 @@ export const EnvelopeIntro: React.FC<EnvelopeIntroProps> = ({ onOpenComplete }) 
               </svg>
             </div>
 
-            {/* 4. Top Flap (Flips Open Upward on Click) */}
+            {/* 3. Top Flap (Flips Open in 3D on Touch) */}
             <motion.div
               initial={{ rotateX: 0 }}
-              animate={isOpen ? { rotateX: 180, zIndex: 5 } : { rotateX: 0, zIndex: 30 }}
-              transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
+              animate={isOpen ? { rotateX: 180, zIndex: 10 } : { rotateX: 0, zIndex: 30 }}
+              transition={{ duration: 0.85, ease: [0.4, 0, 0.2, 1] }}
               style={{ transformOrigin: 'top center' }}
               className="absolute top-0 left-0 right-0 h-[50%] z-30"
             >
               <svg
-                viewBox="0 0 440 165"
-                className="w-full h-full drop-shadow-lg"
+                viewBox="0 0 620 225"
+                className="w-full h-full drop-shadow-xl"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >
-                <polygon points="0,0 440,0 220,165" fill="#FAF7F2" />
+                <polygon points="0,0 620,0 310,225" fill="#FAF7F2" />
                 <path
-                  d="M0 0 L220 165 L440 0"
+                  d="M0 0 L310 225 L620 0"
                   stroke="#C5A059"
-                  strokeWidth="1.5"
-                  strokeOpacity="0.5"
+                  strokeWidth="2"
+                  strokeOpacity="0.6"
+                />
+                {/* Subtle Inner Crease Line */}
+                <path
+                  d="M10 5 L310 215 L610 5"
+                  stroke="#C5A059"
+                  strokeWidth="0.8"
+                  strokeOpacity="0.3"
+                  strokeDasharray="4 4"
                 />
               </svg>
             </motion.div>
 
-            {/* 5. Terracotta / Gold Wax Seal */}
+            {/* 4. Luxury Wax Seal & Tap Prompt */}
             <motion.div
               initial={{ scale: 1, opacity: 1 }}
-              animate={isOpen ? { scale: 1.4, opacity: 0 } : { scale: 1, opacity: 1 }}
-              transition={{ duration: 0.4 }}
+              animate={isOpen ? { scale: 1.5, opacity: 0, filter: 'blur(6px)' } : { scale: 1, opacity: 1 }}
+              transition={{ duration: 0.45 }}
               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-40 flex flex-col items-center cursor-pointer group"
             >
-              {/* Wax Seal Body */}
-              <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-br from-[#C86D51] via-[#A44A3F] to-[#78281D] shadow-[0_8px_20px_rgba(0,0,0,0.35)] flex items-center justify-center border-2 border-[#C5A059] group-hover:scale-105 transition-transform">
+              {/* Wax Seal */}
+              <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-to-br from-[#C86D51] via-[#9B382A] to-[#6E1C12] shadow-[0_12px_28px_rgba(0,0,0,0.45)] flex items-center justify-center border-2 border-[#C5A059] group-hover:scale-105 transition-transform duration-300">
+                {/* Wax Irregular Edge Ring */}
+                <div className="absolute inset-1 rounded-full border border-dashed border-[#FAF7F2]/40 opacity-75" />
                 
-                {/* Wax Irregular Edge Effect */}
-                <div className="absolute inset-0 rounded-full border border-dashed border-[#FAF7F2]/40 opacity-70" />
-                
-                {/* Monogram inside seal */}
+                {/* Monogram Seal */}
                 <div className="text-center">
-                  <span className="font-serif text-sm sm:text-base text-[#FAF7F2] font-bold italic tracking-wider block drop-shadow">
+                  <span className="font-serif text-base sm:text-lg text-[#FAF7F2] font-bold italic tracking-wider block drop-shadow-md">
                     {weddingConfig.couple.monogram}
                   </span>
-                  <Heart className="w-2.5 h-2.5 text-[#E6D5AC] fill-[#E6D5AC] mx-auto mt-0.5" />
+                  <Heart className="w-3 h-3 text-[#E6D5AC] fill-[#E6D5AC] mx-auto mt-0.5" />
                 </div>
               </div>
 
-              {/* Pulsing "Tap to Open" Prompt */}
+              {/* Pulsing "Tap to Open" Badge */}
               <motion.div
-                animate={{ y: [0, 4, 0], opacity: [0.85, 1, 0.85] }}
-                transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
-                className="mt-4 px-4 py-1.5 rounded-full bg-[#FAF7F2] text-[#C86D51] text-[11px] font-semibold tracking-widest uppercase border border-[#C5A059]/60 shadow-lg flex items-center space-x-1.5 whitespace-nowrap"
+                animate={{ y: [0, 4, 0], opacity: [0.9, 1, 0.9] }}
+                transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
+                className="mt-4 px-5 py-2 rounded-full bg-[#FAF7F2]/95 backdrop-blur-sm text-[#C86D51] text-xs sm:text-sm font-semibold tracking-widest uppercase border border-[#C5A059]/70 shadow-xl flex items-center space-x-2 whitespace-nowrap group-hover:bg-white group-hover:border-[#C5A059]"
               >
-                <Sparkles className="w-3 h-3 text-[#C5A059]" />
+                <Sparkles className="w-3.5 h-3.5 text-[#C5A059]" />
                 <span>Tap to Open</span>
               </motion.div>
             </motion.div>
 
           </div>
 
-          {/* Bottom subtle hint */}
-          <div className="absolute bottom-6 text-center text-xs text-[#FAF7F2]/60 uppercase tracking-[0.25em]">
-            Digital Wedding Invitation
+          {/* Bottom Luxury Title */}
+          <div className="absolute bottom-6 sm:bottom-8 text-center text-xs sm:text-sm text-[#FAF7F2]/75 uppercase tracking-[0.3em] font-medium font-serif">
+            Yeabsera & Leyu — Wedding Invitation
           </div>
         </motion.div>
       )}
     </AnimatePresence>
   );
 };
+

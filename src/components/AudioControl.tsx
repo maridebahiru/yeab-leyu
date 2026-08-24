@@ -8,12 +8,34 @@ export const AudioControl: React.FC = () => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    const audio = new Audio(weddingConfig.media.backgroundMusic);
+    const audio = new Audio();
+    audio.src = weddingConfig.media.backgroundMusic;
     audio.loop = true;
-    audio.volume = 0.5;
+    audio.volume = 0.55;
     audioRef.current = audio;
 
+    const handlePlayEvent = () => {
+      if (audioRef.current) {
+        audioRef.current
+          .play()
+          .then(() => setIsPlaying(true))
+          .catch((err) => console.warn('Audio auto-play restricted:', err));
+      }
+    };
+
+    const handlePauseEvent = () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        setIsPlaying(false);
+      }
+    };
+
+    window.addEventListener('wedding:play-audio', handlePlayEvent);
+    window.addEventListener('wedding:pause-audio', handlePauseEvent);
+
     return () => {
+      window.removeEventListener('wedding:play-audio', handlePlayEvent);
+      window.removeEventListener('wedding:pause-audio', handlePauseEvent);
       if (audioRef.current) {
         audioRef.current.pause();
         audioRef.current = null;
