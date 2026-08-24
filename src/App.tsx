@@ -1,6 +1,6 @@
+import { EnvelopeIntro } from './components/EnvelopeIntro';
 import { Hero } from './components/Hero';
 import { Countdown } from './components/Countdown';
-
 import { OurStory } from './components/OurStory';
 import { EventDetails } from './components/EventDetails';
 import { Timeline } from './components/Timeline';
@@ -12,8 +12,12 @@ import { AudioControl } from './components/AudioControl';
 export function App() {
   return (
     <div className="relative min-h-screen bg-[#FAF7F2] text-[#2B2421] font-sans selection:bg-[#C86D51] selection:text-[#FAF7F2]">
+      {/* 0. Sealed Envelope Opening Intro Animation */}
+      <EnvelopeIntro />
+
       {/* Background Floating Audio Button */}
       <AudioControl />
+
 
       <main className="relative w-full overflow-hidden">
         {/* 1. Hero Section — Full-screen looping video/photo, names, date, scroll indicator */}
