@@ -21,6 +21,17 @@ export interface GalleryMediaItem {
   caption: string;
 }
 
+export interface OpeningExperienceConfig {
+  enabled: boolean;
+  rememberOpenedState: boolean;
+  storageDuration: 'session' | 'persistent';
+  showOnEveryVisit: boolean;
+  autoPlayMusicAfterOpen: boolean;
+  musicFadeDuration: number;
+  buttonText: string;
+  subtitleText: string;
+}
+
 export interface WeddingConfig {
   couple: {
     brideName: string;
@@ -38,6 +49,7 @@ export interface WeddingConfig {
     googleMapsUrl: string;
     receptionTime: string;
   };
+  openingExperience: OpeningExperienceConfig;
   story: {
     title: string;
     subtitle: string;
@@ -55,6 +67,21 @@ export interface WeddingConfig {
 }
 
 export const weddingConfig: WeddingConfig = {
+  // =========================================================================
+  // 0. OPENING EXPERIENCE CONFIGURATION
+  // =========================================================================
+  openingExperience: {
+    enabled: true,
+    rememberOpenedState: true,
+    storageDuration: 'session',
+    showOnEveryVisit: false,
+    autoPlayMusicAfterOpen: true,
+    musicFadeDuration: 3000,
+    buttonText: 'Open Our Invitation',
+    subtitleText: 'Together with their families, invite you to celebrate their wedding',
+  },
+
+
   // =========================================================================
   // 1. COUPLE DETAILS
   // =========================================================================

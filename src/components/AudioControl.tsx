@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Volume2, Music } from 'lucide-react';
 import { weddingConfig } from '../config/weddingConfig';
 
-
 export const AudioControl: React.FC = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -14,16 +13,51 @@ export const AudioControl: React.FC = () => {
     audio.volume = 0.55;
     audioRef.current = audio;
 
-    const handlePlayEvent = () => {
-      if (audioRef.current) {
-        audioRef.current
-          .play()
-          .then(() => setIsPlaying(true))
-          .catch((err) => console.warn('Audio auto-play restricted:', err));
+    const fadeTimerRef = { current: null as number | null };
+
+    const handlePlayEvent = (e?: Event) => {
+      const customEvent = e as CustomEvent<{ fadeIn?: boolean; duration?: number }>;
+      const fadeIn = customEvent?.detail?.fadeIn ?? true;
+      const fadeDuration = customEvent?.detail?.duration ?? weddingConfig.openingExperience.musicFadeDuration;
+
+      if (!audioRef.current) return;
+
+      const audio = audioRef.current;
+      const targetVolume = 0.55;
+
+      if (fadeIn) {
+        audio.volume = 0;
+      } else {
+        audio.volume = targetVolume;
       }
+
+      audio
+        .play()
+        .then(() => {
+          setIsPlaying(true);
+          if (fadeIn) {
+            if (fadeTimerRef.current) clearInterval(fadeTimerRef.current);
+            const steps = 30;
+            const intervalTime = fadeDuration / steps;
+            const volumeStep = targetVolume / steps;
+            let currentStep = 0;
+
+            fadeTimerRef.current = window.setInterval(() => {
+              currentStep++;
+              if (audioRef.current) {
+                audioRef.current.volume = Math.min(targetVolume, currentStep * volumeStep);
+              }
+              if (currentStep >= steps) {
+                if (fadeTimerRef.current) clearInterval(fadeTimerRef.current);
+              }
+            }, intervalTime);
+          }
+        })
+        .catch((err) => console.warn('Audio auto-play restricted:', err));
     };
 
     const handlePauseEvent = () => {
+      if (fadeTimerRef.current) clearInterval(fadeTimerRef.current);
       if (audioRef.current) {
         audioRef.current.pause();
         setIsPlaying(false);
@@ -34,6 +68,7 @@ export const AudioControl: React.FC = () => {
     window.addEventListener('wedding:pause-audio', handlePauseEvent);
 
     return () => {
+      if (fadeTimerRef.current) clearInterval(fadeTimerRef.current);
       window.removeEventListener('wedding:play-audio', handlePlayEvent);
       window.removeEventListener('wedding:pause-audio', handlePauseEvent);
       if (audioRef.current) {
