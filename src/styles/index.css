@@ -55,6 +55,7 @@
 .gold-foil {
   background: linear-gradient(135deg, #B88E3E 0%, #F5E8C7 40%, #C5A059 70%, #967431 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 

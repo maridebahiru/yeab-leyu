@@ -134,17 +134,141 @@ export const EnvelopeScreen: React.FC<EnvelopeScreenProps> = ({
                 }}
               />
 
-              {/* Centered Wax Seal on the Flap Tip */}
+              {/* Centered Realistic Burgundy Wax Seal on the Flap Tip */}
               <div className="wax-seal-wrapper absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 z-40 pointer-events-none">
-                <div className="relative w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full bg-gradient-to-br from-[#E0A96D] via-[#C9A876] to-[#8C5D2A] shadow-[0_15px_35px_rgba(0,0,0,0.75)] flex items-center justify-center border-2 border-[#F5EDE0]/70">
-                  {/* Wax Texture Bevel Rings */}
-                  <div className="absolute inset-1.5 rounded-full border border-dashed border-[#F5EDE0]/40 opacity-75" />
-                  <div className="absolute inset-3.5 rounded-full bg-gradient-to-tl from-[#73471A]/60 via-transparent to-[#F2C894]/40 border border-[#F5EDE0]/20" />
+                <div className="relative w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 flex items-center justify-center transition-transform duration-300 group-hover:scale-105 drop-shadow-[0_12px_24px_rgba(0,0,0,0.85)]">
+                  {/* Realistic Organic Wax Seal SVG */}
+                  <svg
+                    viewBox="0 0 120 120"
+                    className="w-full h-full filter drop-shadow-[0_4px_10px_rgba(0,0,0,0.6)]"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <defs>
+                      {/* Rich Burgundy Wax Gradients */}
+                      <radialGradient id="waxBaseGrad" cx="35%" cy="30%" r="70%">
+                        <stop offset="0%" stopColor="#A82832" />
+                        <stop offset="35%" stopColor="#7A1821" />
+                        <stop offset="75%" stopColor="#4A0C12" />
+                        <stop offset="100%" stopColor="#2E060A" />
+                      </radialGradient>
 
-                  {/* Monogram Text */}
-                  <span className="font-serif text-xl sm:text-2xl md:text-3xl text-[#F5EDE0] font-bold italic tracking-widest block drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
-                    {monogram}
-                  </span>
+                      <radialGradient id="waxInnerGrad" cx="40%" cy="35%" r="60%">
+                        <stop offset="0%" stopColor="#96222B" />
+                        <stop offset="50%" stopColor="#661118" />
+                        <stop offset="100%" stopColor="#3B080D" />
+                      </radialGradient>
+
+                      <linearGradient id="goldSheen" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#F5E8C7" stopOpacity="0.65" />
+                        <stop offset="50%" stopColor="#C5A059" stopOpacity="0.3" />
+                        <stop offset="100%" stopColor="#8E6A28" stopOpacity="0" />
+                      </linearGradient>
+
+                      {/* Debossed / Engraved Stamp Effect Shadow */}
+                      <filter id="debossShadow" x="-20%" y="-20%" width="140%" height="140%">
+                        <feOffset dx="1" dy="1.5" />
+                        <feGaussianBlur stdDeviation="0.8" result="offset-blur" />
+                        <feComposite operator="out" in="SourceGraphic" in2="offset-blur" result="inverse" />
+                        <feFlood floodColor="#1A0204" floodOpacity="0.9" result="color" />
+                        <feComposite operator="in" in="color" in2="inverse" result="shadow" />
+                        <feComposite operator="over" in="shadow" in2="SourceGraphic" />
+                      </filter>
+                    </defs>
+
+                    {/* Irregular Organic Melted Wax Outer Base */}
+                    <path
+                      d="M 60,6 
+                         C 74,5 88,10 98,20 
+                         C 107,30 113,44 114,58 
+                         C 115,73 109,88 98,99 
+                         C 87,110 72,115 58,114 
+                         C 43,113 29,107 19,96 
+                         C 8,85 4,70 6,56 
+                         C 8,41 15,27 26,17 
+                         C 36,7 48,7 60,6 Z"
+                      fill="url(#waxBaseGrad)"
+                      stroke="#590F15"
+                      strokeWidth="1.5"
+                    />
+
+                    {/* Melted Outer Lip / Wax Ridge Detail */}
+                    <path
+                      d="M 60,11 
+                         C 71,10 83,14 91,22 
+                         C 99,30 104,42 105,54 
+                         C 106,67 101,80 91,89 
+                         C 82,98 69,103 57,102 
+                         C 44,101 32,96 23,86 
+                         C 14,77 10,64 12,52 
+                         C 14,39 20,27 30,19 
+                         C 39,11 49,11 60,11 Z"
+                      fill="none"
+                      stroke="#C03A46"
+                      strokeWidth="1"
+                      opacity="0.35"
+                    />
+
+                    {/* Inner Pressed Impression Circular Ring */}
+                    <circle
+                      cx="60"
+                      cy="60"
+                      r="38"
+                      fill="url(#waxInnerGrad)"
+                      stroke="#330508"
+                      strokeWidth="2.5"
+                    />
+
+                    <circle
+                      cx="60"
+                      cy="60"
+                      r="37"
+                      fill="none"
+                      stroke="#B32E38"
+                      strokeWidth="1"
+                      opacity="0.4"
+                    />
+
+                    {/* Gold Specular Highlight Curve on Top Edge */}
+                    <path
+                      d="M 32,38 C 40,28 55,24 72,26"
+                      fill="none"
+                      stroke="url(#goldSheen)"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                    />
+
+                    {/* Pressed / Engraved Monogram Initial Text: Y & L */}
+                    <g filter="url(#debossShadow)">
+                      {/* Subtle Highlight Outline around Engraved Letters */}
+                      <text
+                        x="60.8"
+                        y="66.5"
+                        textAnchor="middle"
+                        fill="#E89B9E"
+                        fontSize="23"
+                        fontWeight="bold"
+                        fontFamily="Cinzel, Cormorant Garamond, Playfair Display, Georgia, serif"
+                        letterSpacing="1.5"
+                        opacity="0.75"
+                      >
+                        {monogram}
+                      </text>
+
+                      {/* Engraved Deep Cream Inner Text */}
+                      <text
+                        x="60"
+                        y="65.8"
+                        textAnchor="middle"
+                        fill="#F5EDE0"
+                        fontSize="23"
+                        fontWeight="bold"
+                        fontFamily="Cinzel, Cormorant Garamond, Playfair Display, Georgia, serif"
+                        letterSpacing="1.5"
+                      >
+                        {monogram}
+                      </text>
+                    </g>
+                  </svg>
                 </div>
               </div>
             </motion.div>

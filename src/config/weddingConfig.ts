@@ -38,6 +38,7 @@ export interface WeddingConfig {
     groomName: string;
     hashtag: string;
     monogram: string;
+    amharicTitle?: string;
   };
   event: {
     date: string; // ISO format: YYYY-MM-DDTHH:mm:ss
@@ -59,6 +60,7 @@ export interface WeddingConfig {
   media: {
     heroVideo: string;
     heroImageFallback: string;
+    heroSecondaryMedia?: string;
     storyPhoto: string;
     backgroundMusic: string;
   };
@@ -88,6 +90,7 @@ export const weddingConfig: WeddingConfig = {
   couple: {
     brideName: "Leyu",
     groomName: "Yeabsera",
+    amharicTitle: "Yeabsera And Leyu",
     hashtag: "#YeabseraAndLeyu2026",
     monogram: "Y & L",
   },
@@ -126,6 +129,7 @@ export const weddingConfig: WeddingConfig = {
   media: {
     heroVideo: "/assets/videos/snaptik_7676543468948294930_v3.mp4",
     heroImageFallback: "/assets/photos/snaptik-app-7676491868703624455-slide-1.jpg",
+    heroSecondaryMedia: "/assets/videos/snaptik_7676497685595278610_v3.mp4",
     storyPhoto: "/assets/photos/snaptik-app-7676491868703624455-slide-2.jpg",
     backgroundMusic: "/assets/audio/young-and-beautiful.m4a",
   },
