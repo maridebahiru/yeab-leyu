@@ -47,7 +47,7 @@ END:VCALENDAR`;
   };
 
   return (
-    <section id="details" className="relative py-24 px-4 sm:px-6 bg-[#FAF7F2] text-[#2B2421]">
+    <section id="details" className="relative py-24 px-4 sm:px-6 bg-transparent text-[#2B2421]">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <motion.div

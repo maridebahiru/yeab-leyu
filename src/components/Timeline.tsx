@@ -27,7 +27,7 @@ const getScheduleIcon = (iconType: ScheduleItem['icon']) => {
 
 export const Timeline: React.FC = () => {
   return (
-    <section id="schedule" className="relative py-24 px-4 sm:px-6 bg-[#F3ECE2] text-[#2B2421] overflow-hidden">
+    <section id="schedule" className="relative py-24 px-4 sm:px-6 bg-transparent text-[#2B2421] overflow-hidden">
       <div className="max-w-3xl mx-auto">
         {/* Header */}
         <motion.div

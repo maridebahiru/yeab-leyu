@@ -88,7 +88,13 @@ export const OpeningCard: React.FC<OpeningCardProps> = ({
         variants={reducedMotion ? {} : cardRiseVariants}
         initial="hidden"
         animate={isOpeningOrBeyond ? 'revealed' : 'hidden'}
-        className="absolute inset-[12%] z-15 rounded-xl bg-[#FAF7F2] border border-[#C5A059]/50 p-6 flex flex-col items-center justify-center text-center shadow-2xl pointer-events-none"
+        className="absolute inset-[12%] z-15 rounded-xl border-2 border-[#C5A059]/60 p-6 flex flex-col items-center justify-center text-center shadow-2xl pointer-events-none overflow-hidden"
+        style={{
+          backgroundColor: '#FAF7F2',
+          backgroundImage: "linear-gradient(rgba(250, 247, 242, 0.55), rgba(250, 247, 242, 0.55)), url('/assets/damask-pattern.jpg')",
+          backgroundRepeat: 'repeat',
+          backgroundSize: '220px 220px',
+        }}
       >
         <div className="flex items-center space-x-2 text-[#C5A059] mb-1">
           <Heart className="w-3.5 h-3.5 fill-[#C5A059]" />

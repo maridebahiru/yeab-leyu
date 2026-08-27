@@ -39,6 +39,7 @@ export const EnvelopeScreen: React.FC<EnvelopeScreenProps> = ({
     // Transition to main invite scene after 2.5s
     setTimeout(() => {
       setShowInvite(true);
+      window.dispatchEvent(new CustomEvent('wedding:start-autoscroll'));
     }, 2500);
   };
 
@@ -82,16 +83,17 @@ export const EnvelopeScreen: React.FC<EnvelopeScreenProps> = ({
             transition={{ duration: 0.4, ease: 'easeOut' }}
             style={{ transformStyle: 'preserve-3d' }}
           >
-            {/* 1. .envelope-back (Textured paper background layer) */}
+            {/* 1. .envelope-back (Textured paper background layer with Damask Wallpaper Lining) */}
             <div
-              className="envelope-back absolute inset-0 rounded-3xl border border-[#C9A876]/30 shadow-[0_25px_60px_rgba(0,0,0,0.85)] overflow-hidden"
+              className="envelope-back absolute inset-0 rounded-3xl border border-[#C9A876]/40 shadow-[0_25px_60px_rgba(0,0,0,0.85)] overflow-hidden"
               style={{
-                background: 'linear-gradient(145deg, #4A2F1F 0%, #3B2417 100%)',
+                backgroundColor: '#FAF7F2',
+                backgroundImage: "linear-gradient(rgba(250, 247, 242, 0.55), rgba(250, 247, 242, 0.55)), url('/assets/damask-pattern.jpg')",
+                backgroundRepeat: 'repeat',
+                backgroundSize: '240px 240px',
               }}
             >
-              {/* Embossed Paper Texture Overlay */}
-              <div className="absolute inset-0 opacity-15 bg-[radial-gradient(#C9A876_1px,transparent_1px)] [background-size:16px_16px]" />
-              <div className="absolute inset-5 rounded-2xl border border-[#C9A876]/20" />
+              <div className="absolute inset-5 rounded-2xl border-2 border-[#C9A876]/30" />
             </div>
 
             {/* 2. .envelope-light (Subtle soft light sheen overlay) */}

@@ -5,7 +5,7 @@ import { HeritageDivider } from './HeritageDivider';
 
 export const OurStory: React.FC = () => {
   return (
-    <section id="our-story" className="relative py-24 px-4 sm:px-6 lg:px-8 bg-[#F3ECE2] text-[#2B2421] overflow-hidden">
+    <section id="our-story" className="relative py-24 px-4 sm:px-6 lg:px-8 bg-transparent text-[#2B2421] overflow-hidden">
       {/* Decorative Warm Shapes */}
       <div className="absolute top-0 right-0 w-80 h-80 bg-[#C86D51]/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-80 h-80 bg-[#8A9A86]/10 rounded-full blur-3xl pointer-events-none" />

@@ -38,17 +38,38 @@
   }
 }
 
-/* Warm Paper Card Texture & Borders */
+/* Damask Wallpaper Texture Background Utilities */
+.damask-wallpaper-bg {
+  background-color: #FAF7F2;
+  background-image: 
+    linear-gradient(to bottom, rgba(250, 247, 242, 0.72), rgba(250, 247, 242, 0.72)), 
+    url('/assets/damask-pattern.jpg');
+  background-repeat: repeat;
+  background-size: 320px 320px;
+  background-attachment: fixed;
+}
+
+/* Warm Paper Card Texture & Borders with Damask Pattern */
 .heritage-card {
-  background: #FFFFFF;
-  border: 1px solid rgba(197, 160, 89, 0.25);
-  box-shadow: 0 10px 30px -5px rgba(43, 36, 33, 0.05), 0 0 0 1px rgba(197, 160, 89, 0.1);
+  background-color: #FFFFFF;
+  background-image: 
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)), 
+    url('/assets/damask-pattern.jpg');
+  background-repeat: repeat;
+  background-size: 240px 240px;
+  border: 1px solid rgba(197, 160, 89, 0.35);
+  box-shadow: 0 10px 30px -5px rgba(43, 36, 33, 0.08), 0 0 0 1px rgba(197, 160, 89, 0.15);
 }
 
 .heritage-card-warm {
-  background: #FDFBF8;
-  border: 1px solid rgba(200, 109, 81, 0.2);
-  box-shadow: 0 12px 35px -8px rgba(164, 74, 63, 0.08);
+  background-color: #FDFBF8;
+  background-image: 
+    linear-gradient(to bottom, rgba(253, 251, 248, 0.80), rgba(253, 251, 248, 0.80)), 
+    url('/assets/damask-pattern.jpg');
+  background-repeat: repeat;
+  background-size: 240px 240px;
+  border: 1px solid rgba(200, 109, 81, 0.3);
+  box-shadow: 0 12px 35px -8px rgba(164, 74, 63, 0.1);
 }
 
 /* Subtle Gold Foil Shimmer */

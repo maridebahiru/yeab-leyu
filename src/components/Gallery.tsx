@@ -8,6 +8,8 @@ import { HeritageDivider } from './HeritageDivider';
 
 export const Gallery: React.FC = () => {
   const [activeMedia, setActiveMedia] = useState<GalleryMediaItem | null>(null);
+  const [isAutoScrolling, setIsAutoScrolling] = useState(true);
+  const scrollContainerRef = React.useRef<HTMLDivElement>(null);
 
   const activeIndex = activeMedia
     ? weddingConfig.gallery.findIndex((m) => m.id === activeMedia.id)
@@ -25,6 +27,35 @@ export const Gallery: React.FC = () => {
     }
   };
 
+  const scrollHorizontal = (direction: 'left' | 'right') => {
+    if (scrollContainerRef.current) {
+      const scrollAmount = direction === 'left' ? -360 : 360;
+      scrollContainerRef.current.scrollBy({
+        left: scrollAmount,
+        behavior: 'smooth',
+      });
+    }
+  };
+
+  // Auto horizontal scrolling effect with seamless looping
+  useEffect(() => {
+    if (!isAutoScrolling || activeMedia) return;
+
+    const interval = setInterval(() => {
+      if (scrollContainerRef.current) {
+        const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
+        // If near the end, loop back smooth to the beginning
+        if (scrollLeft + clientWidth >= scrollWidth - 25) {
+          scrollContainerRef.current.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+          scrollContainerRef.current.scrollBy({ left: 340, behavior: 'smooth' });
+        }
+      }
+    }, 3200);
+
+    return () => clearInterval(interval);
+  }, [isAutoScrolling, activeMedia]);
+
   // Keyboard navigation
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -38,7 +69,7 @@ export const Gallery: React.FC = () => {
   }, [activeMedia, activeIndex]);
 
   return (
-    <section id="gallery" className="relative py-24 px-4 sm:px-6 lg:px-8 bg-[#FAF7F2] text-[#2B2421]">
+    <section id="gallery" className="relative py-24 px-4 sm:px-6 lg:px-8 bg-transparent text-[#2B2421]">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <motion.div
@@ -46,7 +77,7 @@ export const Gallery: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-16"
+          className="text-center mb-12"
         >
           <span className="text-xs uppercase tracking-[0.3em] text-[#C86D51] font-semibold">
             Cherished Memories
@@ -57,50 +88,95 @@ export const Gallery: React.FC = () => {
           <HeritageDivider className="my-5" />
         </motion.div>
 
-        {/* Gallery Grid (6–8 items) */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-          {weddingConfig.gallery.map((item, idx) => (
-            <motion.div
-              key={item.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: idx * 0.05 }}
-              onClick={() => setActiveMedia(item)}
-              className="group relative h-64 sm:h-72 rounded-2xl overflow-hidden shadow-md cursor-pointer bg-black border border-[#C5A059]/30"
+        {/* Horizontal Gallery Carousel */}
+        <div
+          className="relative group/gallery max-w-6xl mx-auto"
+          onMouseEnter={() => setIsAutoScrolling(false)}
+          onMouseLeave={() => setIsAutoScrolling(true)}
+          onTouchStart={() => setIsAutoScrolling(false)}
+          onTouchEnd={() => setIsAutoScrolling(true)}
+        >
+          {/* Horizontal Navigation Buttons */}
+          <button
+            onClick={() => scrollHorizontal('left')}
+            className="absolute -left-3 sm:-left-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-[#FAF7F2]/95 backdrop-blur-md text-[#2B2421] border border-[#C5A059]/40 shadow-xl flex items-center justify-center hover:bg-[#C86D51] hover:text-white transition-all duration-300 opacity-90 hover:opacity-100 group-hover/gallery:scale-105 cursor-pointer"
+            aria-label="Scroll Left"
+          >
+            <ChevronLeft className="w-6 h-6" />
+          </button>
+
+          <button
+            onClick={() => scrollHorizontal('right')}
+            className="absolute -right-3 sm:-right-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-[#FAF7F2]/95 backdrop-blur-md text-[#2B2421] border border-[#C5A059]/40 shadow-xl flex items-center justify-center hover:bg-[#C86D51] hover:text-white transition-all duration-300 opacity-90 hover:opacity-100 group-hover/gallery:scale-105 cursor-pointer"
+            aria-label="Scroll Right"
+          >
+            <ChevronRight className="w-6 h-6" />
+          </button>
+
+          {/* Horizontal Scroll Track */}
+          <div
+            ref={scrollContainerRef}
+            className="flex overflow-x-auto gap-4 sm:gap-6 py-4 px-2 sm:px-4 snap-x snap-mandatory scroll-smooth no-scrollbar"
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          >
+            {weddingConfig.gallery.map((item, idx) => (
+              <motion.div
+                key={item.id}
+                initial={{ opacity: 0, x: 40 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: idx * 0.05 }}
+                onClick={() => setActiveMedia(item)}
+                className="group relative flex-shrink-0 w-[280px] sm:w-[340px] md:w-[380px] h-[360px] sm:h-[420px] rounded-2xl overflow-hidden shadow-lg cursor-pointer bg-black border border-[#C5A059]/30 snap-center transition-all duration-300 hover:shadow-2xl hover:border-[#C86D51]/50"
+              >
+                <img
+                  src={item.thumbnail}
+                  alt={item.title}
+                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 filter brightness-90 group-hover:brightness-100"
+                  loading="lazy"
+                />
+
+                {/* Video Play Badge */}
+                {item.type === 'video' && (
+                  <div className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-[#C86D51]/95 backdrop-blur-md text-white flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                    <Play className="w-5 h-5 fill-white ml-0.5" />
+                  </div>
+                )}
+
+                {/* Hover / Overlay Caption */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent p-5 flex flex-col justify-end text-white">
+                  <span className="text-[10px] uppercase tracking-widest text-[#E6D5AC] font-semibold">
+                    {item.type === 'video' ? 'Video Moment' : 'Photograph'}
+                  </span>
+                  <h4 className="text-base font-serif font-medium mt-1">
+                    {item.title}
+                  </h4>
+                  <p className="text-xs text-[#FAF7F2]/85 italic line-clamp-2 mt-1">
+                    {item.caption}
+                  </p>
+                  <div className="mt-3 flex items-center text-[11px] uppercase tracking-wider text-[#C5A059] group-hover:text-[#E6D5AC] transition-colors">
+                    <Maximize2 className="w-3.5 h-3.5 mr-1.5" />
+                    <span>View Fullscreen</span>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Controls & Scroll Hint */}
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 mt-6 px-2 text-xs text-[#C86D51] font-medium tracking-widest uppercase opacity-90">
+            <button
+              onClick={() => setIsAutoScrolling(!isAutoScrolling)}
+              className="flex items-center space-x-2 px-3 py-1.5 rounded-full bg-[#FAF7F2] border border-[#C5A059]/40 shadow-sm text-[11px] text-[#2B2421] hover:border-[#C86D51] transition-all cursor-pointer"
             >
-              <img
-                src={item.thumbnail}
-                alt={item.title}
-                className="w-full h-full object-cover object-center group-hover:scale-108 transition-transform duration-700 filter brightness-90 group-hover:brightness-100"
-                loading="lazy"
-              />
+              <span className={`w-2 h-2 rounded-full ${isAutoScrolling ? 'bg-emerald-500 animate-pulse' : 'bg-amber-500'}`} />
+              <span>{isAutoScrolling ? 'Auto-Scroll Active' : 'Auto-Scroll Paused'}</span>
+            </button>
 
-              {/* Video Play Badge */}
-              {item.type === 'video' && (
-                <div className="absolute top-3 right-3 w-8 h-8 rounded-full bg-[#C86D51]/90 backdrop-blur-md text-white flex items-center justify-center shadow-lg">
-                  <Play className="w-4 h-4 fill-white ml-0.5" />
-                </div>
-              )}
-
-              {/* Hover Caption Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-4 flex flex-col justify-end text-white">
-                <span className="text-[10px] uppercase tracking-widest text-[#E6D5AC] font-semibold">
-                  {item.type === 'video' ? 'Video Moment' : 'Photograph'}
-                </span>
-                <h4 className="text-sm font-serif font-medium mt-0.5">
-                  {item.title}
-                </h4>
-                <p className="text-xs text-[#FAF7F2]/80 italic line-clamp-1 mt-0.5">
-                  {item.caption}
-                </p>
-                <div className="mt-2 flex items-center text-[10px] uppercase tracking-wider text-[#C5A059]">
-                  <Maximize2 className="w-3 h-3 mr-1" />
-                  <span>View Fullscreen</span>
-                </div>
-              </div>
-            </motion.div>
-          ))}
+            <span className="text-[11px] text-[#A44A3F] font-light">
+              ← Scroll, swipe, or hover to pause →
+            </span>
+          </div>
         </div>
 
         {/* Lightbox Modal */}

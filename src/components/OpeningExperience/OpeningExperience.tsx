@@ -108,6 +108,7 @@ export const OpeningExperience: React.FC<OpeningExperienceProps> = ({ onOpenComp
     setTimeout(() => {
       document.body.style.overflow = 'unset';
       setState('complete');
+      window.dispatchEvent(new CustomEvent('wedding:start-autoscroll'));
       if (onOpenComplete) onOpenComplete();
     }, 2600);
   };

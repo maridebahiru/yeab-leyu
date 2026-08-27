@@ -55,7 +55,7 @@ export const Rsvp: React.FC = () => {
   };
 
   return (
-    <section id="rsvp" className="relative py-24 px-4 sm:px-6 bg-[#F3ECE2] text-[#2B2421]">
+    <section id="rsvp" className="relative py-24 px-4 sm:px-6 bg-transparent text-[#2B2421]">
       <div className="max-w-2xl mx-auto">
         {/* Header */}
         <motion.div

@@ -54,7 +54,7 @@ export const Countdown: React.FC = () => {
   ];
 
   return (
-    <section id="countdown" className="relative py-20 px-4 bg-[#FAF7F2] text-[#2B2421]">
+    <section id="countdown" className="relative py-20 px-4 bg-transparent text-[#2B2421]">
       <div className="max-w-4xl mx-auto text-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

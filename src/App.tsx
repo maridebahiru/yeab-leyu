@@ -8,15 +8,17 @@ import { Gallery } from './components/Gallery';
 import { Rsvp } from './components/Rsvp';
 import { Footer } from './components/Footer';
 import { AudioControl } from './components/AudioControl';
+import { AutoScrollControl } from './components/AutoScrollControl';
 
 export function App() {
   return (
-    <div className="relative min-h-screen bg-[#FAF7F2] text-[#2B2421] font-sans selection:bg-[#C86D51] selection:text-[#FAF7F2]">
+    <div className="relative min-h-screen text-[#2B2421] font-sans selection:bg-[#C86D51] selection:text-[#FAF7F2] damask-wallpaper-bg">
       {/* 0. Sealed Envelope Opening Intro Animation */}
       <EnvelopeIntro />
 
-      {/* Background Floating Audio Button */}
+      {/* Background Floating Audio & Auto-Scroll Controls */}
       <AudioControl />
+      <AutoScrollControl />
 
 
       <main className="relative w-full overflow-hidden">
